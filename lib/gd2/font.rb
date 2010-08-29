@@ -114,7 +114,6 @@ module GD2
     @@fontconfig = false
 
     def self.register(font)   #:nodoc:
-      Thread.critical = true
 
       count = @@fontcount
       @@fontcount += 1
@@ -125,8 +124,6 @@ module GD2
       end
 
       ObjectSpace.define_finalizer(font, font_finalizer)
-    ensure
-      Thread.critical = false
     end
 
     def self.font_finalizer
@@ -134,12 +131,9 @@ module GD2
     end
 
     def self.unregister
-      Thread.critical = true
 
       @@fontcount -= 1
       GD2FFI.send(:gdFontCacheShutdown) if @@fontcount.zero?
-    ensure
-      Thread.critical = false
     end
 
     private_class_method :font_finalizer, :unregister
