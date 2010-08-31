@@ -125,14 +125,6 @@ module GD2
       block_given? ? yield(image) : image
     end
 
-    def enc(pattern)
-      if pattern.respond_to? :force_encoding
-        return pattern.encode("ISO-8859-1")
-      else
-        return pattern
-      end
-    end
-
     def self.data_type(str)
       ct = 0
       mgc = ""
